@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import './App.css';
-import Textarea from './Textarea/Textarea';
-import MyComponent from './Firebase-Component/firebase-component';
-import Person from './Person/Person';
+import classes from './App.css';
+import Persons from '../components/Persons/Persons';
+import Person from '../components/Persons/Person/Person';
 
+// import Textarea from './Textarea/Textarea';
+// import MyComponent from './Firebase-Component/firebase-component';
+// import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 
 class App extends Component {
@@ -22,9 +23,7 @@ class App extends Component {
     const personIndex = this.state.persons.findIndex((per)=>{
       return per.id === id;
     });
-
-    const singlePersonClone = {...this.state.persons[personIndex]}
-
+    
     const persons = [...this.state.persons];
     persons[personIndex].name = event.target.value;
 
@@ -50,7 +49,6 @@ class App extends Component {
 
   
   render() {
-
     const style = {
       backgroundColor: 'lightgrey',
       border: '1px solid grey',
@@ -60,14 +58,14 @@ class App extends Component {
       font: 'inherit'
     }
 
-    let classes = [];
+    let assignedClass = [];
 
     if(this.state.persons.length <= 2){
-      classes.push('red'); // classes ['red']
+      assignedClass.push(classes.red); // classes ['red']
     }
     
     if(this.state.persons.length <= 1){
-      classes.push('bold');  // classes ['red', 'bold']
+      assignedClass.push(classes.bold);  // classes ['red', 'bold']
     }
 
     let persons = null;
@@ -75,36 +73,28 @@ class App extends Component {
     if(this.state.showPerson){
       this.persons = (
         <div>
-          {this.state.persons.map((person, index)=>{
-            return  (<Person name={person.name} 
-                             click={this.deleteHandler.bind(this, index)}
-                             change={(e) =>this.nameChangeHandler(e, person.id)}
-                             key={person.id}
-                             age={person.age}/>)
-          })}
+          <Persons persons={this.state.persons} 
+                   clicked={this.deleteHandler} 
+                   changed={this.nameChangeHandler}/>
         </div>
+        // ErrorBoundary is a higher Order Component
       );
-
       style.backgroundColor = 'green';
-      
-    }else{
+    }
+    else{
       this.persons = null;
     }
 
     return (
-       <div className="App">
+       <div className={classes.App}>
         <h1>This is a heading</h1>
           <p>Its a paragraph</p>
-          <p className={classes.join(' ')}>Another Para</p>
+          <p className={assignedClass.join(' ')}>Another Para</p>
           <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
            {this.persons}
       </div>
     );
   }
-
-
 }
 
 export default App;
-
-// ReactDOM.render(<App/> , document.getElementById('root'));
