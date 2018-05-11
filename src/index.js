@@ -274,6 +274,7 @@ const numbers = [1,23,4,6];
 
 
 
+ReactDOM.render(<App/> , document.getElementById('root'));
 
 // ReactDOM.render(<EssayForm/>, document.getElementById('root'));
 registerServiceWorker();
